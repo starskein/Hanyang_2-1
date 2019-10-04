@@ -2,7 +2,10 @@
 #include <fstream>
 #include <string>
 #include <string.h>
+#include <stdlib.h>
+
 using namespace std;
+
 string* split(const string& str, const string& delim){
 	string* string_list = new string[10];
 	
@@ -17,64 +20,54 @@ string* split(const string& str, const string& delim){
 }
 
 struct item{
-	string data;
+	string name;
+	int age;
+	int id;
+	string* subjects = new string[10];
 	struct item *next;
 	
 };
 
 struct item* create_item(){
-	struct item* new_item = new struct item;
-	return new_item;
+	struct item* node = new item;
+	return node;
 };
 void insert_item(struct item* prev_item,struct item* item){
-	item->next = prev_item->next;
 	prev_item->next = item;
+	item -> next = NULL;
+	return;
 }
 int main(void){
+	struct item* node = new item[100];
+	int i = 0;
 	ifstream fin;
 	fin.open("input.txt");
+	string line;
+	string* sline = new string[10];
 	while(!fin.eof()){
-		string line;
+		i++;
 		getline(fin,line);
-		line.append("/n");
-		string* list = split(line,":");
-		struct item sample;
-		string s;
-		s.clear();
-		struct item* item_list[10] = {&sample,};
-		sample.data = s;
-		int i = 0;
-		while(1){	
-			if ((*(list+1)).find("\n") != string::npos)
-				item_list[i]->data = *(list+i);
-                                insert_item(item_list[i-1],item_list[i]);
-				break;
-			if(i==0){			
-				item_list[i]->next = NULL;
-				item_list[i]->data = *(list+i);
-			}
-			else{
-				item_list[i]->data = *(list+i);
-				insert_item(item_list[i-1],item_list[i]);
-			}
-			i++;
-		}
-		if(item_list[2]->data.find("2013") != string::npos){
-			cout << item_list[0]->data;
-			cout << "(" << item_list[1]->data << ") :";
-			cout << item_list[2]->data;
-			delete item_list[0];
-			delete item_list[1];
-			for (int j=3;j<=i;j++){
-				cout << "&" << item_list[j]->data;
-				delete item_list[j];
-			}
-			cout << endl;	
-				
-		}
-		delete[] list;
+		sline = split(line,":");
+		node[i].name = sline[0];
+		node[i].age = atoi(sline[1].c_str());
+		node[i].id = atoi(sline[2].c_str());
+		node[i].subjects = split(sline[3],",");
+		insert_item(&node[i-1],&node[i]);
 	}
+	struct item* curr = node[0].next;
+	while(curr->next != NULL){
+		if(curr->id/10000 == 2013){
+			cout<< curr->name << "(" << curr->id << ")" << curr->subjects[0];
+			for(int i = 1;curr->subjects[i] != "";i++){
+				cout << "&" << curr->subjects[i];
+			}
+			cout << endl;
+		}
+		curr = curr->next;
+	}
+	delete[] node-> subjects;
+	delete[] node;
 	fin.close();
 	return 0;
 }
-				
+			
