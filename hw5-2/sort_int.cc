@@ -13,4 +13,5 @@ int main(void){
 	for (int i=0;i<num;i++)
 		cout << *(p+i) <<" " ; 
 	cout << endl;
+	delete[] p;
 }
