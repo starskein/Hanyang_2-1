@@ -57,7 +57,7 @@ void MyVector<T>::reserve(int new_cap)
 template <typename T>
 void MyVector<T>::push_back(T obj)
 {
-	reserve(1);
+	if (this->n_ele == capacity) reserve(this->n_ele);
 	this->n_ele++;
 	this->obj_arr[this->n_ele-1] = obj;
 }
