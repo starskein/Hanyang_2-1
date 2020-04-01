@@ -1,0 +1,6 @@
+Insertion(5) Failed: cannot find location
+Deletion(9) Failed: element 9 is not in list
+Finding(3) Failed: element 3 is not in list
+key of previous node of 7 is head
+key of previous node of 2 is 7
+key: 7    key: 2    key: 4    
